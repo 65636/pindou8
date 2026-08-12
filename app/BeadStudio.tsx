@@ -535,12 +535,15 @@ function renderPattern(canvas: HTMLCanvasElement, pattern: Pattern, shape: BeadS
     const titleWidth = ctx.measureText("材料清单").width;
     ctx.textAlign = "left";
     ctx.font = `700 ${Math.max(20, Math.floor(size * 0.56))}px ui-sans-serif, system-ui, sans-serif`;
+    const brandSummary = PALETTES[pattern.brand]?.label ?? pattern.brand;
     const totalSummary = `总豆数：${totalBeads.toLocaleString()} 豆`;
     const colorSummary = `颜色：${materialItems.length} 种`;
     const sizeSummary = `尺寸：${pattern.width} × ${pattern.height} 豆`;
     const titleGap = Math.max(96, size * 3.6);
     const summaryGap = Math.max(28, size * 0.85);
     let summaryX = contentLeft + titleWidth + titleGap;
+    ctx.fillText(brandSummary, summaryX, summaryY);
+    summaryX += ctx.measureText(brandSummary).width + summaryGap;
     ctx.fillText(totalSummary, summaryX, summaryY);
     summaryX += ctx.measureText(totalSummary).width + summaryGap;
     ctx.fillText(colorSummary, summaryX, summaryY);
