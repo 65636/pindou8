@@ -777,7 +777,9 @@ export function BeadStudio() {
     if (tool === "view") return;
     if (tool === "picker") {
       if (pattern.cells[index] !== EMPTY) {
-        setSelectedColor(pattern.cells[index]);
+        const pickedColor = pattern.cells[index];
+        setSelectedColor(pickedColor);
+        setReplaceFrom(pickedColor);
         setTool("brush");
       }
       return;
