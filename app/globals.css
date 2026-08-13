@@ -85,6 +85,12 @@ select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-s
 .tool-group button.active { color: var(--accent); background: var(--accent-soft); font-weight: 700; }
 .tool-group button:disabled { opacity: .34; cursor: default; }
 .tool-group.compact button { padding-inline: 7px; }
+.tool-group .toolbar-picker { width: 34px; padding: 0; display: inline-grid; place-items: center; }
+.toolbar-picker svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
+.toolbar-picker .pipette-bulb { fill: var(--accent-soft); stroke-width: 2; }
+.toolbar-picker .pipette-drop { fill: currentColor; stroke: none; }
+.tool-group .toolbar-current-color { width: 34px; min-width: 34px; height: 34px; aspect-ratio: 1; padding: 0; border: 1px solid rgba(20, 28, 24, .25); border-radius: 8px; display: inline-grid; place-items: center; font: 700 10px ui-monospace, monospace; }
+.tool-group .toolbar-current-color.active { outline: 2px solid var(--ink); outline-offset: 1px; }
 .zoom-controls { display: flex; align-items: center; gap: 2px; margin-right: 3px; }
 .tool-group.compact .zoom-controls button { min-width: 28px; padding-inline: 6px; }
 .tool-group.compact .zoom-controls .zoom-value { min-width: 48px; font: 600 10px ui-monospace, monospace; }
@@ -107,12 +113,6 @@ select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-s
 .replace-apply:disabled { opacity: .42; cursor: default; }
 .brush-palette-popover { position: absolute; z-index: 24; top: 64px; left: 12px; width: min(340px, calc(100% - 24px)); padding: 14px; border: 1px solid #cfd5d0; border-radius: 11px; background: #fff; box-shadow: 0 16px 42px rgba(25, 34, 29, .2); }
 .brush-palette-popover .replace-heading span { min-width: 44px; height: 34px; padding: 0 7px; border: 1px solid rgba(20, 28, 24, .25); border-radius: 5px; display: inline-grid; place-items: center; }
-.brush-current-color { display: flex; align-items: center; gap: 7px; }
-.brush-picker { width: 34px; height: 34px; padding: 0; border: 1px solid var(--soft-line); border-radius: 7px; background: #fff; color: var(--accent); font-size: 19px; line-height: 1; cursor: pointer; }
-.brush-picker:hover { border-color: var(--accent); background: var(--accent-soft); }
-.brush-picker svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
-.brush-picker .pipette-bulb { fill: var(--accent-soft); stroke-width: 2; }
-.brush-picker .pipette-drop { fill: currentColor; stroke: none; }
 .brush-palette-grid { max-height: 280px; overflow-y: auto; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 7px; padding: 5px; border: 1px solid var(--soft-line); border-radius: 7px; background: #f5f7f5; scrollbar-width: thin; }
 .brush-palette-grid button { min-width: 0; width: 100%; height: 34px; padding: 0 4px; border: 1px solid rgba(20, 28, 24, .25); border-radius: 5px; display: inline-grid; place-items: center; font: 700 11px ui-monospace, monospace; cursor: pointer; }
 .brush-palette-grid button.selected { outline: 2px solid var(--ink); outline-offset: 1px; }

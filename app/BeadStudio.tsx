@@ -972,7 +972,13 @@ export function BeadStudio() {
 
   const activateTool = (nextTool: Tool) => {
     setTool(nextTool);
-    setBrushPaletteOpen(nextTool === "brush");
+    setBrushPaletteOpen(false);
+  };
+
+  const toggleBrushPalette = () => {
+    if (!pattern) return;
+    setReplaceOpen(false);
+    setBrushPaletteOpen((open) => !open);
   };
 
   const selectBrushColor = (color: BeadColor) => {
@@ -1158,8 +1164,25 @@ export function BeadStudio() {
               <div className="panel canvas-panel">
               <div className="canvas-toolbar">
                 <div className="tool-group" aria-label="编辑工具">
-                  {([['view', '查看'], ['brush', '画笔'], ['eraser', '橡皮'], ['picker', '取色'], ['fill', '填充']] as [Tool, string][]).map(([value, label]) => <button key={value} className={tool === value ? "active" : ""} onClick={() => activateTool(value)} disabled={!pattern} data-brush-palette-trigger={value === "brush" ? "" : undefined}>{label}</button>)}
+                  {([['view', '查看'], ['brush', '画笔'], ['eraser', '橡皮'], ['fill', '填充']] as [Tool, string][]).map(([value, label]) => <button key={value} className={tool === value ? "active" : ""} onClick={() => activateTool(value)} disabled={!pattern}>{label}</button>)}
                   <button className={replaceOpen ? "active" : ""} onClick={toggleColorReplace} disabled={!pattern} data-color-replace-trigger>换色</button>
+                  <button className={`toolbar-picker ${tool === "picker" ? "active" : ""}`} onClick={() => { setTool("picker"); setBrushPaletteOpen(false); }} disabled={!pattern} aria-label="吸管取色" title="吸管取色">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path className="pipette-bulb" d="M16.5 7.5 18 6a2.8 2.8 0 1 1 4 4l-1.5 1.5" />
+                      <path d="m14 7 3 3" />
+                      <path d="m15.5 8.5-9 9L5 21h3.5l9-9" />
+                      <path className="pipette-drop" d="M3.8 19.2s-1.5 1.7-1.5 2.6a1.5 1.5 0 0 0 3 0c0-.9-1.5-2.6-1.5-2.6Z" />
+                    </svg>
+                  </button>
+                  <button
+                    className={`toolbar-current-color ${brushPaletteOpen ? "active" : ""}`}
+                    style={pattern?.palette[selectedColor] ? colorChipStyle(pattern.palette[selectedColor]) : undefined}
+                    onClick={toggleBrushPalette}
+                    disabled={!pattern}
+                    aria-label={pattern?.palette[selectedColor] ? `当前颜色 ${pattern.palette[selectedColor].code}，点击选择颜色` : "选择画笔颜色"}
+                    aria-expanded={brushPaletteOpen}
+                    data-brush-palette-trigger
+                  >{pattern?.palette[selectedColor]?.code ?? "—"}</button>
                 </div>
                 <div className="tool-group compact">
                   {pattern && <div className="zoom-controls" aria-label="查看缩放">
@@ -1176,18 +1199,8 @@ export function BeadStudio() {
               {brushPaletteOpen && pattern && !replaceOpen && (
                 <section ref={brushPanelRef} className="brush-palette-popover" aria-label="画笔颜色面板">
                   <div className="replace-heading">
-                    <strong>画笔颜色</strong>
-                    <div className="brush-current-color">
-                      <button className="brush-picker" onClick={() => { setTool("picker"); setBrushPaletteOpen(false); }} aria-label="切换到取色工具" title="取色">
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                          <path className="pipette-bulb" d="M16.5 7.5 18 6a2.8 2.8 0 1 1 4 4l-1.5 1.5" />
-                          <path d="m14 7 3 3" />
-                          <path d="m15.5 8.5-9 9L5 21h3.5l9-9" />
-                          <path className="pipette-drop" d="M3.8 19.2s-1.5 1.7-1.5 2.6a1.5 1.5 0 0 0 3 0c0-.9-1.5-2.6-1.5-2.6Z" />
-                        </svg>
-                      </button>
-                      {pattern.palette[selectedColor] && <span style={colorChipStyle(pattern.palette[selectedColor])}>{pattern.palette[selectedColor].code}</span>}
-                    </div>
+                    <strong>选择画笔颜色</strong>
+                    <span>{PALETTES[pattern.brand]?.label ?? pattern.brand}</span>
                   </div>
                   <div className="brush-palette-grid">
                     {(PALETTES[pattern.brand]?.colors ?? pattern.palette).map((color) => {
